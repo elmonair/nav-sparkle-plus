@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import midoshopLogo from "@/assets/midoshop-logo.png";
+import midoshopLogo from "@/assets/midoshop-logo-icon.png";
 import { useCart } from "@/store/cart";
 
 type NavItem = {

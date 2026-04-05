@@ -1,4 +1,4 @@
-import midoshopLogo from "@/assets/midoshop-logo.png";
+import midoshopLogo from "@/assets/midoshop-logo-icon.png";
 
 const Footer = () => (
   <footer className="border-t border-border bg-card">
