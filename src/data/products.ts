@@ -5,6 +5,7 @@ import iptvStrong8k from "@/assets/iptv-strong8k.jpg";
 import iptvTrex from "@/assets/iptv-trex.jpg";
 import iptvNeo from "@/assets/iptv-neo.jpg";
 import iptvCrystal from "@/assets/iptv-crystal.jpg";
+import iptvMagnum from "@/assets/iptv-magnum.jpg";
 import subSpotify from "@/assets/sub-spotify.jpg";
 import subYoutube from "@/assets/sub-youtube.jpg";
 import subNetflix from "@/assets/sub-netflix.jpg";

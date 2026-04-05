@@ -34,6 +34,7 @@ const navItems: NavItem[] = [
       { label: "Trex IPTV", slug: "trex" },
       { label: "Neo IPTV", slug: "neo" },
       { label: "Crystal IPTV", slug: "crystal" },
+      { label: "Magnum IPTV", slug: "magnum" },
     ],
   },
   {
