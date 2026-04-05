@@ -108,8 +108,8 @@ const HeroBanner = () => {
             width={1920}
             height={800}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/75 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
         </motion.div>
       </AnimatePresence>
 
