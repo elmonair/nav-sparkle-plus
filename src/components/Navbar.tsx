@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import midoshopLogo from "@/assets/midoshop-logo-icon.png";
+
 import { useCart } from "@/store/cart";
 
 type NavItem = {
@@ -153,7 +153,7 @@ const MobileSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
       >
         <div className="flex items-center justify-between p-4 border-b border-border">
           <Link to="/" onClick={onClose} className="flex items-center">
-            <img src={midoshopLogo} alt="MidoShop" className="h-8 object-contain" />
+            <span className="text-lg font-bold tracking-tight"><span className="text-foreground">Mido</span><span className="text-primary">Shop</span></span>
           </Link>
           <Button variant="ghost" size="icon" onClick={onClose} className="text-muted-foreground hover:text-foreground">
             <X className="h-5 w-5" />
@@ -227,7 +227,7 @@ const Navbar = () => {
               <Menu className="h-5 w-5" />
             </Button>
             <Link to="/" className="flex items-center">
-              <img src={midoshopLogo} alt="MidoShop" className="h-8 sm:h-9 object-contain" />
+              <span className="text-xl sm:text-2xl font-bold tracking-tight"><span className="text-foreground">Mido</span><span className="text-primary">Shop</span></span>
             </Link>
             <nav className="hidden md:flex items-center">
               <DesktopNav />
