@@ -1,9 +1,11 @@
+import midoshopLogo from "@/assets/midoshop-logo.png";
+
 const Footer = () => (
   <footer className="border-t border-border bg-card">
     <div className="container py-12">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
         <div className="col-span-2 md:col-span-1 space-y-3">
-          <span className="text-lg font-black text-gradient-primary">MIDOSHOP</span>
+          <img src={midoshopLogo} alt="MidoShop" className="h-7" />
           <p className="text-sm text-muted-foreground">The best deals on digital game keys, gift cards, and subscriptions.</p>
         </div>
         {[
