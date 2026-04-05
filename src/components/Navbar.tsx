@@ -227,7 +227,7 @@ const Navbar = () => {
               <Menu className="h-5 w-5" />
             </Button>
             <Link to="/" className="flex items-center">
-              <span className="text-xl sm:text-2xl font-bold tracking-tight"><span className="text-foreground">Mido</span><span className="text-primary">Shop</span></span>
+              <span className="text-xl sm:text-2xl font-bold tracking-tight leading-none inline-flex items-center"><span className="text-foreground">Mido</span><span className="text-primary">Shop</span></span>
             </Link>
             <nav className="hidden md:flex items-center">
               <DesktopNav />
