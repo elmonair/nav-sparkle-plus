@@ -5,7 +5,7 @@ const Footer = () => (
     <div className="container py-12">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
         <div className="col-span-2 md:col-span-1 space-y-3">
-          <img src={midoshopLogo} alt="MidoShop" className="h-7" />
+          <img src={midoshopLogo} alt="MidoShop" className="h-8 object-contain" />
           <p className="text-sm text-muted-foreground">The best deals on digital game keys, gift cards, and subscriptions.</p>
         </div>
         {[
