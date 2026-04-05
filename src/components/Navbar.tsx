@@ -152,8 +152,8 @@ const MobileSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <Link to="/" onClick={onClose}>
-            <img src={midoshopLogo} alt="MidoShop" className="h-7" />
+          <Link to="/" onClick={onClose} className="flex items-center">
+            <img src={midoshopLogo} alt="MidoShop" className="h-8 object-contain" />
           </Link>
           <Button variant="ghost" size="icon" onClick={onClose} className="text-muted-foreground hover:text-foreground">
             <X className="h-5 w-5" />
@@ -226,8 +226,8 @@ const Navbar = () => {
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <Link to="/">
-              <img src={midoshopLogo} alt="MidoShop" className="h-7 sm:h-8" />
+            <Link to="/" className="flex items-center">
+              <img src={midoshopLogo} alt="MidoShop" className="h-8 sm:h-9 object-contain" />
             </Link>
             <nav className="hidden md:flex items-center">
               <DesktopNav />
