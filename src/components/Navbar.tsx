@@ -229,7 +229,7 @@ const Navbar = () => {
               MIDOSHOP
             </Link>
             <nav className="hidden md:flex items-center">
-              <MegaMenu />
+              <DesktopNav />
             </nav>
           </div>
 
