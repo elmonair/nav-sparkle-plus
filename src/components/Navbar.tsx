@@ -157,10 +157,8 @@ const Navbar = () => {
           <Link to="/" className="text-xl font-black tracking-tight text-gradient-primary">
             GAMEKEYS
           </Link>
-          <nav className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => (
-              <NavDropdown key={item.label} item={item} />
-            ))}
+          <nav className="hidden md:flex items-center">
+            <MegaMenu />
           </nav>
         </div>
 
