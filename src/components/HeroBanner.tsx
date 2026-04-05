@@ -33,10 +33,10 @@ const slides = [
   {
     image: heroSubscriptions,
     badge: "Subscriptions",
-    title: "Spotify, YouTube &",
-    highlight: "Shahid VIP",
+    title: "Premium Streaming",
+    highlight: "Subscriptions",
     description:
-      "Premium streaming subscriptions at the best prices. Ad-free music, videos, and exclusive Arabic content.",
+      "Spotify, YouTube Premium, Shahid VIP and more — all at the best prices with instant delivery.",
     cta: "View Subscriptions",
     link: "/category/subscriptions",
   },
