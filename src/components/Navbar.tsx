@@ -1,8 +1,78 @@
-import { Search, ShoppingCart, User, Menu } from "lucide-react";
-import { useState } from "react";
+import { Search, ShoppingCart, User, Menu, ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/store/cart";
+
+type NavItem = {
+  label: string;
+  subcategories?: string[];
+};
+
+const navItems: NavItem[] = [
+  {
+    label: "Games",
+    subcategories: ["Action", "Adventure", "Racing", "Strategy", "Survival", "Horror", "RPG", "Sports"],
+  },
+  {
+    label: "Gift Cards",
+    subcategories: ["Steam", "PlayStation", "Xbox", "Nintendo", "Epic Games"],
+  },
+  {
+    label: "Subscriptions",
+    subcategories: ["Game Pass", "PS Plus", "EA Play", "Ubisoft+", "Nintendo Online"],
+  },
+  {
+    label: "Deals",
+    subcategories: ["Flash Sales", "Weekly Deals", "Under $10", "Under $20", "Bundles"],
+  },
+];
+
+const NavDropdown = ({ item }: { item: NavItem }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <Button
+        variant="ghost"
+        size="sm"
+        className="text-secondary-foreground hover:text-foreground hover:bg-secondary gap-1"
+        onClick={() => setOpen(!open)}
+        onMouseEnter={() => setOpen(true)}
+      >
+        {item.label}
+        {item.subcategories && (
+          <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        )}
+      </Button>
+      {open && item.subcategories && (
+        <div
+          className="absolute top-full left-0 mt-1 w-48 rounded-lg border border-border bg-popover p-1 shadow-xl animate-in fade-in-0 zoom-in-95 duration-150"
+          onMouseLeave={() => setOpen(false)}
+        >
+          {item.subcategories.map((sub) => (
+            <button
+              key={sub}
+              className="w-full text-left px-3 py-2 text-sm rounded-md text-popover-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              {sub}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -17,10 +87,8 @@ const Navbar = () => {
             GAMEKEYS
           </a>
           <nav className="hidden md:flex items-center gap-1">
-            {["Games", "Gift Cards", "Subscriptions", "Deals"].map((item) => (
-              <Button key={item} variant="ghost" size="sm" className="text-secondary-foreground hover:text-foreground hover:bg-secondary">
-                {item}
-              </Button>
+            {navItems.map((item) => (
+              <NavDropdown key={item.label} item={item} />
             ))}
           </nav>
         </div>
