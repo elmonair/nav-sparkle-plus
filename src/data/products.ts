@@ -5,6 +5,7 @@ import iptvStrong8k from "@/assets/iptv-strong8k.jpg";
 import iptvTrex from "@/assets/iptv-trex.jpg";
 import iptvNeo from "@/assets/iptv-neo.jpg";
 import iptvCrystal from "@/assets/iptv-crystal.jpg";
+import iptvMagnum from "@/assets/iptv-magnum.jpg";
 import subSpotify from "@/assets/sub-spotify.jpg";
 import subYoutube from "@/assets/sub-youtube.jpg";
 import subNetflix from "@/assets/sub-netflix.jpg";
@@ -45,7 +46,11 @@ export const products: Product[] = [
   { id: "iptv-crystal-6m", title: "Crystal IPTV – 6 Months", category: "iptv", subcategory: "crystal", price: 34.99, originalPrice: 47.94, discount: 27, image: iptvCrystal, description: "6-month Crystal IPTV package." },
   { id: "iptv-crystal-12m", title: "Crystal IPTV – 12 Months", category: "iptv", subcategory: "crystal", price: 59.99, originalPrice: 95.88, discount: 37, image: iptvCrystal, description: "Full year of Crystal IPTV.", badge: "Best Value" },
 
-  // ── Subscriptions ──
+  { id: "iptv-magnum-1m", title: "Magnum IPTV – 1 Month", category: "iptv", subcategory: "magnum", price: 10.99, image: iptvMagnum, description: "Premium IPTV with 15,000+ channels and 4K support.", badge: "New" },
+  { id: "iptv-magnum-3m", title: "Magnum IPTV – 3 Months", category: "iptv", subcategory: "magnum", price: 27.99, originalPrice: 32.97, discount: 15, image: iptvMagnum, description: "3-month Magnum IPTV package." },
+  { id: "iptv-magnum-6m", title: "Magnum IPTV – 6 Months", category: "iptv", subcategory: "magnum", price: 49.99, originalPrice: 65.94, discount: 24, image: iptvMagnum, description: "6-month Magnum IPTV package." },
+  { id: "iptv-magnum-12m", title: "Magnum IPTV – 12 Months", category: "iptv", subcategory: "magnum", price: 89.99, originalPrice: 131.88, discount: 32, image: iptvMagnum, description: "Full year of Magnum IPTV.", badge: "Best Value" },
+
   { id: "spotify-individual", title: "Spotify Premium Individual", category: "subscriptions", subcategory: "spotify", price: 9.99, image: subSpotify, description: "Ad-free music streaming for one account." },
   { id: "spotify-duo", title: "Spotify Premium Duo", category: "subscriptions", subcategory: "spotify", price: 14.99, image: subSpotify, description: "Two Premium accounts for couples under one roof." },
   { id: "spotify-family", title: "Spotify Premium Family", category: "subscriptions", subcategory: "spotify", price: 16.99, image: subSpotify, description: "Up to 6 Premium accounts for family members.", badge: "Best Value" },
