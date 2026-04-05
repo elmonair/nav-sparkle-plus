@@ -174,27 +174,27 @@ const MobileSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         <div className="overflow-y-auto h-[calc(100%-65px)] py-2">
           {navItems.map((item) => (
             <div key={item.slug}>
-              <div className="flex items-center">
+              {item.subcategories ? (
+                <button
+                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-foreground hover:bg-accent transition-colors"
+                  onClick={() => toggleExpand(item.slug)}
+                >
+                  {item.label}
+                  <ChevronDown
+                    className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${
+                      expandedSlug === item.slug ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              ) : (
                 <Link
                   to={`/category/${item.slug}`}
-                  className="flex-1 px-4 py-3 text-sm font-medium text-foreground hover:bg-accent transition-colors"
+                  className="block px-4 py-3 text-sm font-medium text-foreground hover:bg-accent transition-colors"
                   onClick={onClose}
                 >
                   {item.label}
                 </Link>
-                {item.subcategories && (
-                  <button
-                    className="px-4 py-3 text-muted-foreground hover:text-foreground transition-colors"
-                    onClick={() => toggleExpand(item.slug)}
-                  >
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-200 ${
-                        expandedSlug === item.slug ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                )}
-              </div>
+              )}
 
               {item.subcategories && expandedSlug === item.slug && (
                 <div className="bg-secondary/30">
