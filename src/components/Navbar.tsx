@@ -69,8 +69,8 @@ const navItems: NavItem[] = [
   },
 ];
 
-/* ── Desktop mega menu (hover) ── */
-const MegaMenu = () => {
+/* ── Desktop nav with simple dropdowns ── */
+const NavDropdownItem = ({ item }: { item: NavItem }) => {
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -78,71 +78,53 @@ const MegaMenu = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setIsOpen(true);
   };
-  const scheduleClose = () => {
-    timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
+  const close = () => {
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 150);
   };
 
-  const menuItems = navItems.filter((i) => i.subcategories);
+  if (!item.subcategories) {
+    return (
+      <Link to={`/category/${item.slug}`}>
+        <Button variant="ghost" size="sm" className="text-secondary-foreground hover:text-foreground hover:bg-secondary/60 transition-colors">
+          {item.label}
+        </Button>
+      </Link>
+    );
+  }
 
   return (
-    <div className="relative flex items-center gap-0.5">
-      {navItems.map((item) => (
-        <Link key={item.slug} to={`/category/${item.slug}`}>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-secondary-foreground hover:text-foreground hover:bg-secondary/60 gap-1 transition-colors"
-            onMouseEnter={item.subcategories ? open : undefined}
-            onMouseLeave={item.subcategories ? scheduleClose : undefined}
-            onClick={() => setIsOpen(false)}
-          >
-            {item.label}
-            {item.subcategories && (
-              <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
-            )}
-          </Button>
-        </Link>
-      ))}
-
+    <div className="relative" onMouseEnter={open} onMouseLeave={close}>
+      <Link to={`/category/${item.slug}`}>
+        <Button variant="ghost" size="sm" className="text-secondary-foreground hover:text-foreground hover:bg-secondary/60 gap-1 transition-colors">
+          {item.label}
+          <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+        </Button>
+      </Link>
       {isOpen && (
-        <div
-          className="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 z-[60] rounded-xl border border-border/40 bg-background/95 backdrop-blur-md shadow-2xl shadow-black/60"
-          onMouseEnter={open}
-          onMouseLeave={scheduleClose}
-        >
-          <div className="flex">
-            {menuItems.map((item, idx) => (
-              <div
-                key={item.slug}
-                className={`px-4 py-3 min-w-[140px] ${
-                  idx < menuItems.length - 1 ? "border-r border-border/20" : ""
-                }`}
-              >
-                <Link
-                  to={`/category/${item.slug}`}
-                  className="block px-2 py-1 mb-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 hover:text-primary transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
-                {item.subcategories!.map((sub) => (
-                  <Link
-                    key={sub.slug}
-                    to={`/category/${item.slug}/${sub.slug}`}
-                    className="block px-2 py-1.5 text-[13px] rounded-md text-muted-foreground hover:bg-accent/60 hover:text-foreground transition-all duration-150"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {sub.label}
-                  </Link>
-                ))}
-              </div>
-            ))}
-          </div>
+        <div className="absolute left-0 top-full mt-1 z-[60] min-w-[180px] rounded-lg border border-border/40 bg-background/95 backdrop-blur-md shadow-xl shadow-black/40 py-1.5">
+          {item.subcategories.map((sub) => (
+            <Link
+              key={sub.slug}
+              to={`/category/${item.slug}/${sub.slug}`}
+              className="block px-3.5 py-2 text-[13px] text-muted-foreground hover:bg-accent/60 hover:text-foreground transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              {sub.label}
+            </Link>
+          ))}
         </div>
       )}
     </div>
   );
 };
+
+const DesktopNav = () => (
+  <div className="flex items-center gap-0.5">
+    {navItems.map((item) => (
+      <NavDropdownItem key={item.slug} item={item} />
+    ))}
+  </div>
+);
 
 /* ── Mobile sidebar drawer ── */
 const MobileSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
