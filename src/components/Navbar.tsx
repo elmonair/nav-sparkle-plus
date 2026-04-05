@@ -68,48 +68,76 @@ const navItems: NavItem[] = [
   },
 ];
 
-const NavDropdown = ({ item }: { item: NavItem }) => {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+const MegaMenu = () => {
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const barRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
+  const handleEnter = (slug: string) => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setOpenSlug(slug);
+  };
+
+  const handleLeave = () => {
+    timeoutRef.current = setTimeout(() => setOpenSlug(null), 150);
+  };
+
+  const handleDropdownEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  };
+
+  // All items that have subcategories
+  const menuItems = navItems.filter((i) => i.subcategories);
 
   return (
-    <div ref={ref} className="relative">
-      <Link to={`/category/${item.slug}`}>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-secondary-foreground hover:text-foreground hover:bg-secondary gap-1"
-          onMouseEnter={() => setOpen(true)}
-          onClick={() => setOpen(false)}
-        >
-          {item.label}
-          {item.subcategories && (
-            <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
-          )}
-        </Button>
-      </Link>
-      {open && item.subcategories && (
+    <div ref={barRef} className="relative flex items-center gap-1">
+      {navItems.map((item) => (
+        <Link key={item.slug} to={`/category/${item.slug}`}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={`text-secondary-foreground hover:text-foreground hover:bg-secondary gap-1 transition-colors ${openSlug === item.slug ? "text-foreground bg-secondary" : ""}`}
+            onMouseEnter={() => item.subcategories ? handleEnter(item.slug) : setOpenSlug(null)}
+            onMouseLeave={handleLeave}
+            onClick={() => setOpenSlug(null)}
+          >
+            {item.label}
+            {item.subcategories && (
+              <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${openSlug === item.slug ? "rotate-180" : ""}`} />
+            )}
+          </Button>
+        </Link>
+      ))}
+
+      {openSlug && (
         <div
-          className="absolute top-full left-0 mt-1 w-48 rounded-lg border border-border bg-popover p-1 shadow-xl animate-in fade-in-0 zoom-in-95 duration-150"
-          onMouseLeave={() => setOpen(false)}
+          className="absolute top-full left-0 mt-2 flex rounded-xl border border-border bg-popover/95 backdrop-blur-xl shadow-2xl shadow-black/40 animate-in fade-in-0 slide-in-from-top-2 duration-200 z-50"
+          onMouseEnter={handleDropdownEnter}
+          onMouseLeave={handleLeave}
         >
-          {item.subcategories.map((sub) => (
-            <Link
-              key={sub.slug}
-              to={`/category/${item.slug}/${sub.slug}`}
-              className="block w-full text-left px-3 py-2 text-sm rounded-md text-popover-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-              onClick={() => setOpen(false)}
+          {menuItems.map((item) => (
+            <div
+              key={item.slug}
+              className={`min-w-[160px] p-2 ${item.slug !== menuItems[menuItems.length - 1].slug ? "border-r border-border/50" : ""}`}
             >
-              {sub.label}
-            </Link>
+              <Link
+                to={`/category/${item.slug}`}
+                className="block px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors mb-1"
+                onClick={() => setOpenSlug(null)}
+              >
+                {item.label}
+              </Link>
+              {item.subcategories!.map((sub) => (
+                <Link
+                  key={sub.slug}
+                  to={`/category/${item.slug}/${sub.slug}`}
+                  className="block px-3 py-2 text-sm rounded-lg text-popover-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                  onClick={() => setOpenSlug(null)}
+                >
+                  {sub.label}
+                </Link>
+              ))}
+            </div>
           ))}
         </div>
       )}
@@ -129,10 +157,8 @@ const Navbar = () => {
           <Link to="/" className="text-xl font-black tracking-tight text-gradient-primary">
             GAMEKEYS
           </Link>
-          <nav className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => (
-              <NavDropdown key={item.label} item={item} />
-            ))}
+          <nav className="hidden md:flex items-center">
+            <MegaMenu />
           </nav>
         </div>
 
