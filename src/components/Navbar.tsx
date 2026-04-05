@@ -1,5 +1,5 @@
-import { Search, ShoppingCart, User, Menu, ChevronDown } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { Search, ShoppingCart, User, Menu, X, ChevronDown } from "lucide-react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,6 +68,7 @@ const navItems: NavItem[] = [
   },
 ];
 
+/* ── Desktop mega menu (hover) ── */
 const MegaMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -76,7 +77,6 @@ const MegaMenu = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setIsOpen(true);
   };
-
   const scheduleClose = () => {
     timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
   };
@@ -138,53 +138,143 @@ const MegaMenu = () => {
   );
 };
 
+/* ── Mobile sidebar drawer ── */
+const MobileSidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
+
+  const toggleExpand = (slug: string) => {
+    setExpandedSlug((prev) => (prev === slug ? null : slug));
+  };
+
+  return (
+    <>
+      {/* Backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-[70] bg-black/60 backdrop-blur-sm"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 left-0 z-[80] h-full w-72 bg-background border-r border-border shadow-2xl transform transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <Link to="/" className="text-lg font-black text-gradient-primary" onClick={onClose}>
+            MIDOSHOP
+          </Link>
+          <Button variant="ghost" size="icon" onClick={onClose} className="text-muted-foreground hover:text-foreground">
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+
+        <div className="overflow-y-auto h-[calc(100%-65px)] py-2">
+          {navItems.map((item) => (
+            <div key={item.slug}>
+              <div className="flex items-center">
+                <Link
+                  to={`/category/${item.slug}`}
+                  className="flex-1 px-4 py-3 text-sm font-medium text-foreground hover:bg-accent transition-colors"
+                  onClick={onClose}
+                >
+                  {item.label}
+                </Link>
+                {item.subcategories && (
+                  <button
+                    className="px-4 py-3 text-muted-foreground hover:text-foreground transition-colors"
+                    onClick={() => toggleExpand(item.slug)}
+                  >
+                    <ChevronDown
+                      className={`h-4 w-4 transition-transform duration-200 ${
+                        expandedSlug === item.slug ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                )}
+              </div>
+
+              {item.subcategories && expandedSlug === item.slug && (
+                <div className="bg-secondary/30">
+                  {item.subcategories.map((sub) => (
+                    <Link
+                      key={sub.slug}
+                      to={`/category/${item.slug}/${sub.slug}`}
+                      className="block px-8 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+                      onClick={onClose}
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+};
+
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toggle, totalItems } = useCart();
   const count = totalItems();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
-      <div className="container flex h-16 items-center justify-between gap-4">
-        <div className="flex items-center gap-6">
-          <Link to="/" className="text-xl font-black tracking-tight text-gradient-primary">
-            MIDOSHOP
-          </Link>
-          <nav className="hidden md:flex items-center">
-            <MegaMenu />
-          </nav>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <div className={`${searchOpen ? "flex" : "hidden"} md:flex items-center`}>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search games..."
-                className="w-48 lg:w-72 pl-9 bg-secondary border-border text-foreground placeholder:text-muted-foreground focus:ring-primary"
-              />
-            </div>
+    <>
+      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
+        <div className="container flex h-14 sm:h-16 items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-6">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden text-muted-foreground shrink-0"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+            <Link to="/" className="text-lg sm:text-xl font-black tracking-tight text-gradient-primary">
+              MIDOSHOP
+            </Link>
+            <nav className="hidden md:flex items-center">
+              <MegaMenu />
+            </nav>
           </div>
-          <Button variant="ghost" size="icon" className="md:hidden text-muted-foreground" onClick={() => setSearchOpen(!searchOpen)}>
-            <Search className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:text-foreground" onClick={toggle}>
-            <ShoppingCart className="h-5 w-5" />
-            {count > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-primary text-[10px] font-bold flex items-center justify-center text-primary-foreground">
-                {count}
-              </span>
-            )}
-          </Button>
-          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
-            <User className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="md:hidden text-muted-foreground">
-            <Menu className="h-5 w-5" />
-          </Button>
+
+          <div className="flex items-center gap-1 sm:gap-2">
+            <div className={`${searchOpen ? "flex" : "hidden"} md:flex items-center`}>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search..."
+                  className="w-40 sm:w-48 lg:w-72 pl-9 bg-secondary border-border text-foreground placeholder:text-muted-foreground focus:ring-primary"
+                />
+              </div>
+            </div>
+            <Button variant="ghost" size="icon" className="md:hidden text-muted-foreground shrink-0" onClick={() => setSearchOpen(!searchOpen)}>
+              <Search className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:text-foreground shrink-0" onClick={toggle}>
+              <ShoppingCart className="h-5 w-5" />
+              {count > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-primary text-[10px] font-bold flex items-center justify-center text-primary-foreground">
+                  {count}
+                </span>
+              )}
+            </Button>
+            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground shrink-0 hidden sm:flex">
+              <User className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      <MobileSidebar isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+    </>
   );
 };
 
