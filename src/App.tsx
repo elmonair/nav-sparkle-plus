@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import GameDetail from "./pages/GameDetail.tsx";
+import CategoryPage from "./pages/CategoryPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import CartDrawer from "./components/CartDrawer.tsx";
 
@@ -20,6 +21,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/game/:id" element={<GameDetail />} />
+          <Route path="/category/:category" element={<CategoryPage />} />
+          <Route path="/category/:category/:subcategory" element={<CategoryPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
