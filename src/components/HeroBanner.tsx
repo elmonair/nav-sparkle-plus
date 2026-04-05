@@ -1,14 +1,22 @@
 import { motion } from "framer-motion";
-import { Zap } from "lucide-react";
+import { Zap, Tv, CreditCard, Music, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-game.jpg";
+import { Link } from "react-router-dom";
+import heroImage from "@/assets/hero-digital-store.jpg";
+
+const highlights = [
+  { icon: Tv, label: "IPTV" },
+  { icon: Music, label: "Subscriptions" },
+  { icon: CreditCard, label: "Gift Cards" },
+  { icon: Gamepad2, label: "Game Keys" },
+];
 
 const HeroBanner = () => {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
-        <img src={heroImage} alt="Featured game" className="w-full h-full object-cover" width={1920} height={800} />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20" />
+        <img src={heroImage} alt="Digital store" className="w-full h-full object-cover" width={1920} height={800} />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
       </div>
 
@@ -17,29 +25,42 @@ const HeroBanner = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="max-w-lg space-y-6"
+          className="max-w-xl space-y-6"
         >
           <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5">
             <Zap className="h-4 w-4 text-primary" />
-            <span className="text-sm font-semibold text-primary">Flash Sale — Up to 78% OFF</span>
+            <span className="text-sm font-semibold text-primary">Instant Digital Delivery</span>
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] text-foreground">
-            Dragon's Wrath: <span className="text-gradient-primary">Reborn</span>
+            Your One-Stop{" "}
+            <span className="text-gradient-primary">Digital Store</span>
           </h1>
 
           <p className="text-lg text-muted-foreground leading-relaxed">
-            The ultimate RPG experience. Claim your key at the lowest price and dive into an epic adventure.
+            IPTV subscriptions, streaming services, gift cards, and game keys — all at unbeatable prices with instant delivery.
           </p>
 
-          <div className="flex items-center gap-4">
-            <Button size="lg" className="bg-primary text-primary-foreground font-bold hover:bg-primary/90 px-8">
-              Buy Now — €12.99
-            </Button>
-            <div className="text-muted-foreground">
-              <span className="line-through text-sm">€59.99</span>
-              <span className="ml-2 text-sm font-bold text-discount">-78%</span>
-            </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link to="/category/iptv">
+              <Button size="lg" className="bg-primary text-primary-foreground font-bold hover:bg-primary/90 px-8">
+                Browse IPTV
+              </Button>
+            </Link>
+            <Link to="/category/gift-cards">
+              <Button size="lg" variant="outline" className="font-bold border-border hover:bg-muted px-8">
+                Gift Cards
+              </Button>
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-6 pt-2">
+            {highlights.map(({ icon: Icon, label }) => (
+              <div key={label} className="flex items-center gap-1.5 text-muted-foreground">
+                <Icon className="h-4 w-4 text-primary" />
+                <span className="text-xs font-medium">{label}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

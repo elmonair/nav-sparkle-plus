@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HeroBanner from "@/components/HeroBanner";
 import TrustBar from "@/components/TrustBar";
-import GameGrid from "@/components/GameGrid";
+import FeaturedProducts from "@/components/FeaturedProducts";
 import Footer from "@/components/Footer";
 
 const Index = () => (
@@ -9,7 +9,7 @@ const Index = () => (
     <Navbar />
     <HeroBanner />
     <TrustBar />
-    <GameGrid />
+    <FeaturedProducts />
     <Footer />
   </div>
 );
