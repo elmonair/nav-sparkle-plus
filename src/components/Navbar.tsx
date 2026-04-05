@@ -148,7 +148,7 @@ const Navbar = () => {
       <div className="container flex h-16 items-center justify-between gap-4">
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-black tracking-tight text-gradient-primary">
-            GAMEKEYS
+            MIDOSHOP
           </Link>
           <nav className="hidden md:flex items-center">
             <MegaMenu />
